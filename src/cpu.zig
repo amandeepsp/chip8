@@ -1,7 +1,7 @@
 const Memory = @import("memory.zig").Memory;
 const std = @import("std");
 const log = std.log;
-const RandGen = std.rand.DefaultPrng;
+const RandGen = std.Random.DefaultPrng;
 
 pub const Cpu = struct {
     v: [16]u8 = [_]u8{0} ** 16,
@@ -184,6 +184,9 @@ pub const Cpu = struct {
             },
             0x2 => {
                 // call subroutine at address NNN
+                if (self.pc >= self.stack.len) {
+                    @panic("stack overflow");
+                }
                 self.stack[self.sp] = self.pc;
                 self.sp += 1;
                 self.pc = @truncate(opcode & 0x0FFF);

@@ -47,7 +47,7 @@ pub const Frontend = struct {
             return error.InvalidResolution;
         }
 
-        const frame = rl.loadRenderTexture(@intCast(screenWidth), @intCast(screenHeight));
+        const frame = try rl.loadRenderTexture(@intCast(screenWidth), @intCast(screenHeight));
 
         const beepSound = generateBeep();
 
@@ -117,7 +117,7 @@ pub const Frontend = struct {
     }
 
     fn generateBeep() rl.Sound {
-        return rl.loadSoundFromWave(rl.loadWave("assets/beep.wav"));
+        return rl.loadSoundFromWave(rl.loadWave("assets/beep.wav") catch unreachable);
     }
 
     pub fn deinit(self: *Frontend) void {

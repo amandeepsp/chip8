@@ -7,7 +7,7 @@ const Frontend = @import("frontend.zig").Frontend;
 
 const cpu_tick_duration_ms: i64 = 2; //500hz
 
-fn load_rom_from_file(path: []const u8, allocator: *const std.mem.Allocator) ![]u8 {
+fn loadRom(path: []const u8, allocator: *const std.mem.Allocator) ![]u8 {
     const file = try std.fs.cwd().openFile(path, .{ .mode = .read_only });
     defer file.close();
 
@@ -40,7 +40,7 @@ pub fn main() !void {
     var frontend = try Frontend.init(640, 320);
     defer frontend.deinit();
 
-    const rom = try load_rom_from_file(rom_path, &allocator);
+    const rom = try loadRom(rom_path, &allocator);
 
     memory.load_rom(rom);
 
